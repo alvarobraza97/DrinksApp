@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Very Simple Form 2</title>
+<script type="text/javascript" src="js/jquery-3.6.0.js"></script>
+<script type="text/javascript" src="js/wsinvocation.js"></script>
+</head>
+
+<body>
+
+<div>
+<input type="button" value="GET HELLO" onclick="getHello()" />
+<input type="button" value="GET H.ID" onclick="getHelloId(3)"/>
+<input type="button" value="GET JASON" onclick="getDateJSON()"/>
+<input type="button" value="GET ALL DATES" onclick="getAllDates()"/>
+<h3 id="resGetHello"></h3>
+</div>
+
+
+<div>
+<input type="button" value="POST HELLO" onclick="postHelloName()"/>
+<label for="name" style="display:inline-block; width: 100px;">Name</label>
+<input id="name" type="text" name="name" />
+<h3 id="postGetHello"></h3>
+</div>
+
+
+<div>
+<input type="button" value="POST DATE JSON" onclick="postDateJSON()"/>
+<input type="button" value="POST DATE FORM" onclick="postDateForm()"/>
+<label for="day" style="display:inline-block; width: 100px;">Day</label>
+<input id="day" type="text" name="day" />
+<label for="month" style="display:inline-block; width: 100px;">Month</label>
+<input id="month" type="text" name="month" />
+<label for="year" style="display:inline-block; width: 100px;">Year</label>
+<input id="year" type="text" name="year" />
+<h3 id="postDate"></h3>
+</div>
+
+
+<div>
+<input type="button" value="MODIFY DATE " onclick="putDate()"/>
+<label for="date" style="display:inline-block; width: 100px;">Event to Modify(e.g. NewYearsEve)</label>
+<input id="date" type="text" name="date" />
+<h3 id="putDate"></h3>
+</div>
+
+<div>
+<input type="button" value="GET API KEY " onclick="getApikey()"/>
+<input type="button" value="TEST API KEY " onclick="testApikey2()"/>
+<label for="user" style="display:inline-block; width: 100px;">User</label>
+<input id="user" type="text" name="user" />
+<label for="password" style="display:inline-block; width: 100px;">Password</label>
+<input id="password" type="password" name="password" />
+<h3 id="apikey"></h3>
+</div>
+
+
+<div>
+<input type="button" value="GET JWT KEY " onclick="getJWT()"/>
+<input type="button" value="TEST JWT KEY " onclick="testJWT()"/>
+</div>
+<div>
+<input type="button" value="GET JWE KEY " onclick="getJWE()"/>
+<input type="button" value="TEST JWE KEY " onclick="testJWE()"/>
+</div>
+<div>
+<label for="userJWT" style="display:inline-block; width: 100px;">User</label>
+<input id="userJWT" type="text" name="userJWT" />
+<label for="passwordJWT" style="display:inline-block; width: 100px;">Password</label>
+<input id="passwordJWT" type="password" name="passwordJWT" />
+<h3 id="JWT"></h3>
+</div>
+
+</body>
+</html>
+
