@@ -13,10 +13,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jose4j.http.Response;
+
 import org.jose4j.jwk.JsonWebKey;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jwk.RsaJwkGenerator;
@@ -113,46 +114,46 @@ public class MainWeb {
 		return "Denied";
 	}
 	
-//	@Path("/authenticateJWT")
-//	@GET
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response authenticateCredentials(@HeaderParam("username") String username,
-//			@HeaderParam("password") String password)
-//			throws JsonGenerationException, JsonMappingException, IOException {
-//		User user = new User();
-//		user.setUser(username);
-//		user.setPassword(password);
-//
-//		RsaJsonWebKey jwk = null;
-//		try {
-//			jwk = RsaJwkGenerator.generateJwk(2048);
-//			jwk.setKeyId("1");
-//			myJwk = jwk;
-//		} catch (JoseException e) {
-//			e.printStackTrace();
-//		}
-//
-//		JwtClaims claims = new JwtClaims();
-//		claims.setIssuer("uca");
-//		claims.setExpirationTimeMinutesInTheFuture(10);
-//		claims.setGeneratedJwtId();
-//		claims.setIssuedAtToNow();
-//		claims.setNotBeforeMinutesInThePast(2);
-//		claims.setSubject(user.getUser());
-//		claims.setStringListClaim("roles", "restUser2");
-//		JsonWebSignature jws = new JsonWebSignature();
-//		jws.setPayload(claims.toJson());
-//		jws.setKeyIdHeaderValue(jwk.getKeyId());
-//		jws.setKey(jwk.getPrivateKey());
-//		jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
-//
-//		String jwt = null;
-//		try {
-//			jwt = jws.getCompactSerialization();
-//		} catch (JoseException e) {
-//			System.out.println(e);
-//		}
-//		user.setApikey(jwt); // SET TOKEN
-//		return Response.status(200).entity(jwt).build();
-//	}
+	@Path("/authenticateJWT")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response authenticateCredentials(@HeaderParam("username") String username,
+			@HeaderParam("password") String password)
+			throws JsonGenerationException, JsonMappingException, IOException {
+		User user = new User();
+		user.setUser(username);
+		user.setPassword(password);
+
+		RsaJsonWebKey jwk = null;
+		try {
+			jwk = RsaJwkGenerator.generateJwk(2048);
+			jwk.setKeyId("1");
+			myJwk = jwk;
+		} catch (JoseException e) {
+			e.printStackTrace();
+		}
+
+		JwtClaims claims = new JwtClaims();
+		claims.setIssuer("uca");
+		claims.setExpirationTimeMinutesInTheFuture(10);
+		claims.setGeneratedJwtId();
+		claims.setIssuedAtToNow();
+		claims.setNotBeforeMinutesInThePast(2);
+		claims.setSubject(user.getUser());
+		claims.setStringListClaim("roles", "restUser2");
+		JsonWebSignature jws = new JsonWebSignature();
+		jws.setPayload(claims.toJson());
+		jws.setKeyIdHeaderValue(jwk.getKeyId());
+		jws.setKey(jwk.getPrivateKey());
+		jws.setAlgorithmHeaderValue(AlgorithmIdentifiers.RSA_USING_SHA256);
+
+		String jwt = null;
+		try {
+			jwt = jws.getCompactSerialization();
+		} catch (JoseException e) {
+			System.out.println(e);
+		}
+		user.setApikey(jwt); // SET TOKEN
+		return Response.status(200).entity(jwt).build();
+	}
 }
