@@ -9,15 +9,17 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
+import org.jose4j.json.internal.json_simple.JSONObject;
 import org.jose4j.jwk.JsonWebKey;
 import org.jose4j.jwk.RsaJsonWebKey;
 import org.jose4j.jwk.RsaJwkGenerator;
@@ -47,7 +49,7 @@ public class MainWeb {
 		cocacola.setPrice(1.50);
 		cocacola.setVolume("33 cl");
 		
-		myMap.put(1, cocacola);
+		myMap.put(0, cocacola);
 		
 		Drink fanta = new Drink();
 		fanta.setName("Fanta");
@@ -55,7 +57,7 @@ public class MainWeb {
 		fanta.setPrice(1.50);
 		fanta.setVolume("33 cl");
 		
-		myMap.put(2, fanta);	
+		myMap.put(1, fanta);	
 		
 		User admin = new User();
 		admin.setUser("admin");
@@ -69,23 +71,69 @@ public class MainWeb {
 	@Path("/GetDrinks")
 	@Produces(MediaType.TEXT_PLAIN)
 	public String GetPlainDrinks() {
-		return myMap.toString();
+		String s = "";
+		for (int i=0; i < myMap.size(); i++) {
+		    Drink h = myMap.get(i);
+		    s = s + h.getName() + ", " + h.getPrice() + "€, " + h.getVolume() + ", " + h.getAmount() + " unidades; ";
+		}
+		return s;
 	}
 	
 	@GET
 	@Path("/GetDrinksJSON")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String GetPlainDrinksJSON() {
-		return myMap.toString();
+	public JSONObject GetPlainDrinksJSON() {
+		JSONObject json =  new JSONObject(myMap);
+		return json;
+		
 	}
 	
 	@GET
 	@Path("/GetDrink/{id}")
 	@Produces(MediaType.TEXT_PLAIN)
-	public String GetPlainDrinks(@PathParam("id") Integer _id) {
+	public String GetPlainDrinks(@PathParam("id") String _id) {
+		for (int i=0; i < myMap.size(); i++) {
+		    Drink h = myMap.get(i);
+		    if(h.getName().equalsIgnoreCase(_id)) {
+		    	return h.getName() + ", " + h.getPrice() + "€, " + h.getVolume() + ", " + h.getAmount() + " unidades; ";
+		    }
+		}
 		return 
-				"<h2>"+myMap.get((Integer)_id).getName()+"</h2>";
+				"No se ha encontrado la bebida";
 	}
+	
+	@PUT
+	@Path("/PutDrink/{id}/{am}")
+	public String PutDrink(@PathParam("id") String _id,@PathParam("am") int _am) {
+		for (int i=0; i < myMap.size(); i++) {
+		    Drink h = myMap.get(i);
+		    if(h.getName().equalsIgnoreCase(_id)) {
+		    	myMap.get(i).setAmount(_am);
+		    	return "ok";
+		    }
+		}
+		return "no ok";
+	}
+	
+	@POST
+	@Path("/PostDrink")
+	//@Consumes(MediaType.TEXT_PLAIN)
+	@Produces(MediaType.TEXT_PLAIN)
+	public String PostDrink(String json) {
+		Drink d = new Drink();
+		String[] s = json.split("\"");
+		d.setName(s[3]);
+		String price = s[6].substring(1, s[6].length()-1);
+		d.setAmount(Integer.parseInt(s[12].substring(1, s[12].length()-1)));
+		d.setPrice(Double.parseDouble(price));
+		d.setVolume(s[9]);
+		
+		myMap.put(myMap.size(), d);
+		return 
+				"Insertado correctamente";
+	}
+	
+	
 	
 	@POST
 	@Path("/putApiKey")
@@ -140,7 +188,7 @@ public class MainWeb {
 		claims.setIssuedAtToNow();
 		claims.setNotBeforeMinutesInThePast(2);
 		claims.setSubject(user.getUser());
-		claims.setStringListClaim("roles", "restUser2");
+		claims.setStringListClaim("roles", "administrator");
 		JsonWebSignature jws = new JsonWebSignature();
 		jws.setPayload(claims.toJson());
 		jws.setKeyIdHeaderValue(jwk.getKeyId());
