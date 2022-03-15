@@ -23,41 +23,55 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>My REST service</servlet-name>
+		<servlet-name>Secure REST area</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
-<!-- 	<security-constraint> -->
-<!-- 		<display-name>Example_secured</display-name> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name>example_rest</web-resource-name> -->
-<!-- 			<url-pattern>/HelloWorld/demo/hello/myDat</url-pattern> -->
-<!-- 			<http-method>POST</http-method> -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<auth-constraint> -->
-<!-- 			<role-name>digestRestUser</role-name> -->
-<!-- 		</auth-constraint> -->
-<!-- 	</security-constraint> -->
-<!-- 	<security-constraint> -->
-<!-- 		<display-name>Secure REST Area</display-name> -->
-<!-- 		<web-resource-collection> -->
-<!-- 			<web-resource-name> Hello REST</web-resource-name> -->
-<!-- 			<url-pattern>/*</url-pattern> -->
-<!-- 			<http-method>PUT</http-method> -->
-<!-- 			<http-method>POST</http-method> -->
-<!-- 			<http-method>DELETE</http-method> -->
-<!-- 		</web-resource-collection> -->
-<!-- 		<auth-constraint> -->
-<!-- 			<role-name>basicRestUser</role-name> -->
-<!-- 		</auth-constraint> -->
-<!-- 		<user-data-constraint> -->
-<!-- 			<transport-guarantee>NONE</transport-guarantee> -->
-<!-- 		</user-data-constraint> -->
-<!-- 	</security-constraint> -->
-<!-- 	<login-config> -->
-<!-- 		<auth-method>BASIC</auth-method> -->
-<!-- 		<realm-name>default</realm-name> -->
-<!-- 	</login-config> -->
-<!-- 	<security-role> -->
-<!-- 		<role-name>basicRestUser</role-name> -->
-<!-- 	</security-role> -->
+ 	<security-constraint> 
+ 		<display-name>secured_app_area</display-name> 
+ 		<web-resource-collection> 
+ 			<web-resource-name>secure_rest</web-resource-name> 
+ 			<url-pattern>/*</url-pattern> 
+ 			<http-method>POST</http-method> 
+ 		</web-resource-collection> 
+ 		<auth-constraint> 
+ 			<role-name>client</role-name> 
+ 		</auth-constraint>
+ 		<user-data-constraint> 
+ 			<transport-guarantee>CONFIDENTIAL</transport-guarantee> 
+ 		</user-data-constraint> 
+ 	</security-constraint> 
+ 	<security-constraint> 
+ 		<display-name>Secure REST Area</display-name> 
+ 		<web-resource-collection> 
+ 			<web-resource-name>secured_app_area</web-resource-name> 
+ 			<url-pattern>/*</url-pattern> 
+ 			<http-method>PUT</http-method> 
+ 			<http-method>POST</http-method> 
+ 			<http-method>DELETE</http-method> 
+ 		</web-resource-collection> 
+ 		<auth-constraint> 
+ 			<role-name>administrator</role-name> 
+ 		</auth-constraint> 
+ 		<user-data-constraint> 
+ 			<transport-guarantee>CONFIDENTIAL</transport-guarantee> 
+ 		</user-data-constraint> 
+ 	</security-constraint> 
+ 	<login-config> 
+ 		<auth-method>BASIC</auth-method> 
+ 		<realm-name>UserDatabase</realm-name> 
+ 	</login-config> 
+ 	<security-role> 
+ 		<role-name>client</role-name>
+ 		<role-name>administrator</role-name> 
+ 	</security-role>
+
+
+	<filter>
+		<filter-name>CORSFilter</filter-name>
+		<filter-class>org.apache.catalina.filters.CorsFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>CORSFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
 </web-app>
