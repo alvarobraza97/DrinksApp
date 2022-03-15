@@ -3,11 +3,12 @@ package DrinksPackage;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
+@XmlRootElement(name = "User")
 public class User {
 	
 	private String user;
 	private String password;
+	private int tipo;
 	private String apikey;
 	
 	@XmlElement
@@ -30,8 +31,18 @@ public class User {
 	public String getApikey() {
 		return apikey;
 	}
+	
 	public void setApikey(String apikey) {
 		this.apikey = apikey;
+	}
+	
+	@XmlElement
+	public int getTipo() {
+		return tipo;
+	}
+	
+	public void setTipo(int tipo) {
+		this.tipo = tipo;
 	}
 	
 	

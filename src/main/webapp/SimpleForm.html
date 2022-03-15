@@ -1,0 +1,31 @@
+<!-- http://localhost:8080/HelloWorld/SimpleForm.html -->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Very Simple Form</title>
+</head>
+<body>
+		<p>Customer form</p>
+		<form action="http://localhost:8080/HelloWorld/demo/hello/newUser" method="post">
+			<div>
+				<label for="name" style="display:inline-block; width: 100px;">Name</label>
+				<input id="name" type="text" name="name" />
+			</div>
+			<div>
+				<label for="surname" style="display:inline-block; width: 100px;">Surname</label>
+				<input id="surname" type="text" name="surname" />
+			</div>
+			<div>
+				<label for="status" style="display:inline-block; width: 100px;">Status</label>
+				<select id="status" name="status" >
+					<option value="active">Active</option>
+  					<option value="inactive">Inactive</option>
+				</select>
+			</div>
+			<br/>
+			<input type="submit" value="Save" />
+		</form>
+	</body>
+</html>
